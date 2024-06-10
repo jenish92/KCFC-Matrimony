@@ -2,12 +2,14 @@
 class Master {
     private $conn;
     
-    private $tables = array("blood" => "master_blood_group","bodyType" => "master_body_types", "complex" => "master_complexions", "caste" => "master_caste", "subCaste" => "master_sub_caste","masritalStatus" => "master_marital_status", "natchathiram" => "master_natchathira", "rasi" => "master_rasi");
+    
+    private $tables = array("blood" => "master_blood_group","bodyType" => "master_body_types", "complex" => "master_complexions", "caste" => "master_caste", "subCaste" => "master_sub_caste","masritalStatus" => "master_marital_status", "natchathiram" => "master_natchathira", "rasi" => "master_rasi","state" => "master_state", "district" => "master_district", "religion" => "master_sub_relegion");
     
     public $masterData = [];
 
     public function __construct($db) {
         $this->conn = $db;
+        
     }
 
     public function MasterTable($table = "", $param = "") {

@@ -1,3 +1,6 @@
+<?php 
+    require_once("lib/variables.php");  
+?>
 <!doctype html>
 <html lang="en">
 
@@ -28,7 +31,7 @@
 </head>
 
 <body>
-    <?php include_once("master/header.php"); ?>
+    <?php include_once(BASE_PATH."/master/header.php"); ?>
     <!-- BANNER & SEARCH -->
     <section>
         <div class="str">
@@ -786,7 +789,7 @@
     <!-- END -->
 
     <!-- FOOTER -->
-    <?php include_once("master/footer.php"); ?>
+    <?php include_once(BASE_PATH."/master/footer.php"); ?>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="js/jquery.min.js"></script>
