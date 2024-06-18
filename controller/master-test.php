@@ -29,6 +29,4 @@ $params = array();
 
 $blood = $master->MasterTable($table,$params);
 
-print_r($blood);
-
 ?>

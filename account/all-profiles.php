@@ -71,8 +71,8 @@ require_once("../lib/Master.php");
                             <div class="form-group">
                                 <select class="chosen-select" id="gender">
                                     <option value="">I'm looking for</option>
-                                    <option value="Male">Men</option>
-                                    <option value="Female">Women</option>
+                                    <option value="1">Men</option>
+                                    <option value="2">Women</option>
                                 </select>
                             </div>
                         </div>
