@@ -13,7 +13,7 @@ class User {
     public $country;
     public $state;
     public $district;
-    public $user_exist;
+    public $user_exist = 0;
     
     private $previous_id;
     private $previous_login_id;
@@ -97,7 +97,7 @@ class User {
             $where = " WHERE email = '$email'";
         }
         
-        $query = "SELECT MAX(id) as 'id', login_id FROM " . $this->table_name . $where." LIMIT 1";
+       $query = "SELECT id, login_id FROM " . $this->table_name . $where." ORDER BY id DESC LIMIT 1";
         $stmt = $this->conn->prepare($query);
         
         $stmt->execute();
@@ -106,10 +106,10 @@ class User {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $this->previous_id = $row['id'];
             $this->previous_login_id = substr($row['login_id'],1);
-            $this->user_exist = true;
+            $this->user_exist = 1;
         }
         else{
-            $this->user_exist = false;
+            $this->user_exist = 0;
         }
     }
     
