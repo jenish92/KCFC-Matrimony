@@ -1,8 +1,8 @@
 <?php 
     require_once("../lib/variables.php");  
-    require_once ("../lib/db-connections.php");
-    require_once("../lib/Profile.php");
-require_once("../lib/Master.php");
+    require_once (BASE_PATH."/lib/db-connections.php");
+    require_once(BASE_PATH."/lib/Profile.php");
+    require_once(BASE_PATH."/lib/Master.php");
     $database = new Database();
     $db = $database->getConnection();
     $profile = new Profile($db);    
@@ -47,7 +47,7 @@ require_once("../lib/Master.php");
             <div class="container">
                 <div class="row">
                     <h1>Lakhs of Happy Marriages</h1>
-                    <a href="sign-up.html">Join now for Free <i class="fa fa-handshake-o" aria-hidden="true"></i></a>
+<!--                    <a href="sign-up.html">Join now for Free <i class="fa fa-handshake-o" aria-hidden="true"></i></a>-->
                 </div>
             </div>
         </div>
@@ -73,6 +73,7 @@ require_once("../lib/Master.php");
                                     <option value="">I'm looking for</option>
                                     <option value="1">Men</option>
                                     <option value="2">Women</option>
+                                    <option value="3">Others</option>
                                 </select>
                             </div>
                         </div>
@@ -162,15 +163,13 @@ require_once("../lib/Master.php");
                             <ul>
                                 <?php
                                 
-                                
-                                
                                 foreach($profileList as $profile){  ?>
                                 <li>
                                     <div class="all-pro-box">
                                         <!--PROFILE IMAGE-->
                                         <div class="pro-img">
-                                            <a href="profile-details.html">
-                                                <img src="<?php echo $base_url; ?>photos/<?php echo $profile["photo_1"]; ?>" alt="">
+                                            <a href="profile-details.php?id=<?php echo $profile['id']; ?>">
+                                                <img src="<?php echo $base_url; ?>documents/<?php echo $profile["photo_1"]; ?>" alt="">
                                             </a>
                                             <div class="pro-ave" title="User currently available">
 <!--                                                <span class="pro-ave-yes"></span>-->
@@ -183,7 +182,7 @@ require_once("../lib/Master.php");
 
                                         <!--PROFILE NAME-->
                                         <div class="pro-detail">
-                                            <h4><a href="profile-details.html"><?php echo $profile["first_name"]." ".$profile["last_name"]; ?></a></h4>
+                                            <h4><a href="profile-details.php?id=<?php echo $profile['id']; ?>"><?php echo $profile["first_name"]." ".$profile["last_name"]; ?></a></h4>
                                             <div class="pro-bio">
                                                 <span><?php echo $profile["education"]; ?></span>
                                                 <span><?php echo $profile["qualification"]; ?></span>
@@ -191,7 +190,7 @@ require_once("../lib/Master.php");
                                                 <span>Height: <?php echo $profile["height"]; ?></span>
                                             </div>
                                             <div class="links">
-                                                                                                <a href="profile-details.html">More detaiils</a>
+                                                                                                <a href="profile-details.php?id=<?php echo $profile['id']; ?>">More detaiils</a>
                                             </div>
                                         </div>
                                         <!--END PROFILE NAME-->
@@ -213,171 +212,8 @@ require_once("../lib/Master.php");
     </section>
     <!-- END -->
 
-
-    <!-- INTEREST POPUP -->
-    <div class="modal fade" id="sendInter">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title seninter-tit">Send interest to <span class="intename2">Jolia</span></h4>
-                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body seninter">
-                    <div class="lhs">
-                        <img src="images/profiles/1.jpg" alt="" class="intephoto2">
-                    </div>
-                    <div class="rhs">
-                        <h4>Permissions: <span class="intename2">Jolia</span> Can able to view the below details</h4>
-                        <ul>
-                            <li>
-                                <div class="chbox">
-                                    <input type="checkbox" id="pro_about" checked="">
-                                    <label for="pro_about">About section</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="chbox">
-                                    <input type="checkbox" id="pro_photo">
-                                    <label for="pro_photo">Photo gallery</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="chbox">
-                                    <input type="checkbox" id="pro_contact">
-                                    <label for="pro_contact">Contact info</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="chbox">
-                                    <input type="checkbox" id="pro_person">
-                                    <label for="pro_person">Personal info</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="chbox">
-                                    <input type="checkbox" id="pro_hobbi">
-                                    <label for="pro_hobbi">Hobbies</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="chbox">
-                                    <input type="checkbox" id="pro_social">
-                                    <label for="pro_social">Social media</label>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="form-floating">
-                            <textarea class="form-control" id="comment" name="text"
-                                placeholder="Comment goes here"></textarea>
-                            <label for="comment">Write some message to <span class="intename"></span></label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Send interest</button>
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancel</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- END INTEREST POPUP -->
-
-    <!-- CHAT CONVERSATION BOX START -->
-    <div class="chatbox">
-        <span class="comm-msg-pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
-
-        <div class="inn">
-            <form name="new_chat_form" method="post">
-                <div class="s1">
-                    <img src="images/user/2.jpg" class="intephoto2" alt="">
-                    <h4><b class="intename2">Julia</b>,</h4>
-                    <span class="avlsta avilyes">Available online</span>
-                </div>
-                <div class="s2 chat-box-messages">
-                    <span class="chat-wel">Start a new chat!!! now</span>
-                    <div class="chat-con">
-                        <div class="chat-lhs">Hi</div>
-                        <div class="chat-rhs">Hi</div>
-                    </div>
-                    <!--<span>Start A New Chat!!! Now</span>-->
-                </div>
-                <div class="s3">
-                    <input type="text" name="chat_message" placeholder="Type a message here.." required="">
-                    <button id="chat_send1" name="chat_send" type="submit">Send <i class="fa fa-paper-plane-o"
-                            aria-hidden="true"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- END -->
-
-
-    <!-- FOOTER -->
-    <section class="wed-hom-footer">
-        <div class="container">
-            <div class="row foot-supp">
-                <h2><span>Free support:</span> +92 (8800) 68 - 8960 &nbsp;&nbsp;|&nbsp;&nbsp; <span>Email:</span>
-                    info@example.com</h2>
-            </div>
-            <div class="row wed-foot-link wed-foot-link-1">
-                <div class="col-md-4">
-                    <h4>Get In Touch</h4>
-                    <p>Address: 3812 Lena Lane City Jackson Mississippi</p>
-                    <p>Phone: <a href="tel:+917904462944">+92 (8800) 68 - 8960</a></p>
-                    <p>Email: <a href="mailto:info@example.com">info@example.com</a></p>
-                </div>
-                <div class="col-md-4">
-                    <h4>HELP &amp; SUPPORT</h4>
-                    <ul>
-                        <li><a href="about-us.html">About company</a>
-                        </li>
-                        <li><a href="#!">Contact us</a>
-                        </li>
-                        <li><a href="#!">Feedback</a>
-                        </li>
-                        <li><a href="about-us.html#faq">FAQs</a>
-                        </li>
-                        <li><a href="about-us.html#testimonials">Testimonials</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-4 fot-soc">
-                    <h4>SOCIAL MEDIA</h4>
-                    <ul>
-                        <li><a href="#!"><img src="images/social/1.png" alt=""></a></li>
-                        <li><a href="#!"><img src="images/social/2.png" alt=""></a></li>
-                        <li><a href="#!"><img src="images/social/3.png" alt=""></a></li>
-                        <li><a href="#!"><img src="images/social/5.png" alt=""></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row foot-count">
-                <p>Company name Site - Trusted by over thousands of Boys & Girls for successfull marriage. <a
-                        href="sign-up.html" class="btn btn-primary btn-sm">Join us today !</a></p>
-            </div>
-        </div>
-    </section>
-    <!-- END -->
-    <!-- COPYRIGHTS -->
-    <section>
-        <div class="cr">
-            <div class="container">
-                <div class="row">
-                    <p>Copyright © <span id="cry">2017-2020</span> <a href="#!" target="_blank">Company.com</a> All
-                        rights reserved.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- END -->
+<?php include_once(BASE_PATH."/master/footer.php"); ?>
+        <!-- END -->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="<?php echo $base_url; ?>js/jquery.min.js"></script>

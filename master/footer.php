@@ -1,26 +1,20 @@
     <section class="wed-hom-footer">
         <div class="container">
             <div class="row foot-supp">
-                <h2><span>Free support:</span> +92 (8800) 68 - 8960 &nbsp;&nbsp;|&nbsp;&nbsp; <span>Email:</span>
-                    info@example.com</h2>
+                <h2><span>Free support:</span> +91 98400 51817 &nbsp;&nbsp;|&nbsp;&nbsp; <span>Email:</span>
+                    info@kcfcmatrimony.com</h2>
             </div>
             <div class="row wed-foot-link wed-foot-link-1">
                 <div class="col-md-4">
-                    <h4>Get In Touch</h4>
-                    <p>Address: 3812 Lena Lane City Jackson Mississippi</p>
-                    <p>Phone: <a href="tel:+917904462944">+92 (8800) 68 - 8960</a></p>
-                    <p>Email: <a href="mailto:info@example.com">info@example.com</a></p>
+                    <h4>Contact</h4>
+                    <p>Address: 103, Balaji Nagar, Alwarthirunagar, Chennai - 600087</p>
+                    <p>Phone: <a href="tel:+910000000000">+91 98400 51817</a></p>
+                    <p>Email: <a href="mailto:info@kcfcmatrimony.com">info@kcfcmatrimony.com</a></p>
                 </div>
                 <div class="col-md-4">
-                    <h4>HELP &amp; SUPPORT</h4>
+                    <h4>MENU</h4>
                     <ul>
-                        <li><a href="about-us.html">About company</a>
-                        </li>
-                        <li><a href="#!">Contact us</a>
-                        </li>
-                        <li><a href="#!">Feedback</a>
-                        </li>
-                        <li><a href="about-us.html#faq">FAQs</a>
+                        <li><a href="about-us.html">About Us</a>
                         </li>
                         <li><a href="about-us.html#testimonials">Testimonials</a>
                         </li>
@@ -38,7 +32,7 @@
             </div>
             <div class="row foot-count">
                 <p>Company name Site - Trusted by over thousands of Boys & Girls for successfull marriage. <a
-                        href="sign-up.html" class="btn btn-primary btn-sm">Join us today !</a></p>
+                        href="sign_up.php" class="btn btn-primary btn-sm">Join us today !</a></p>
             </div>
         </div>
     </section>
@@ -49,7 +43,7 @@
         <div class="cr">
             <div class="container">
                 <div class="row">
-                    <p>Copyright © <span id="cry">2023</span> <a href="#!" target="_blank">Company.com</a> All
+                    <p>Copyright © <span id="cry">2024</span> <a href="#!" target="_blank">KCFC</a> All
                         rights reserved.</p>
                 </div>
             </div>

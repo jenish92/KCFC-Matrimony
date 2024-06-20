@@ -1,15 +1,21 @@
 <?php 
     require_once("../lib/variables.php");  
-    require_once ("../lib/db-connections.php");
-    require_once("../lib/Profile.php");
-require_once("../lib/Master.php");
+    require_once (BASE_PATH."/lib/db-connections.php");
+    require_once(BASE_PATH."/lib/Profile.php");
+    require_once(BASE_PATH."/lib/Master.php");
     $database = new Database();
     $db = $database->getConnection();
     $profile = new Profile($db);
+    $id = 0;
+    if(isset($_GET["id"]) && $_GET["id"] !== ""){
+        $id = $_GET["id"];
+    }
 
-    $filter["profile"] = "K100000";
+    $filter["profile"] = $id;
 
     $profileList = $profile->ProfileLists($filter);
+
+    //var_dump($profileList);
 ?>
 <!doctype html>
 <html lang="en">
@@ -51,7 +57,7 @@ require_once("../lib/Master.php");
                     <div class="profile">
                         <div class="pg-pro-big-im">
                             <div class="s1">
-                                <img src="<?php echo $base_url; ?>photos/<?php echo $profile["photo_1"]; ?>" loading="lazy" class="pro" alt="">
+                                <img src="<?php echo $base_url; ?>documents/<?php echo $profile["photo_1"]; ?>" loading="lazy" class="pro" alt="">
                             </div>
                             <div class="s3">
 <!--
@@ -156,7 +162,11 @@ require_once("../lib/Master.php");
                                 <h3>Personal information</h3>
                                 <ul>
                                     <li><b>Name:</b> <?php echo $profile["first_name"]." ".$profile["last_name"]; ?></li>
-                                    <li><b>Gender:</b> <?php echo $profile["gender"]; ?></li>
+                                    <li><b>Gender:</b> <?php 
+                                        if($profile["gender"] == 1){ echo "Male"; }
+                                        else if ($profile["gender"] == 2){ echo "Female"; }
+                                        else{ echo "Others"; }
+                                        ?></li>
                                     <li><b>Marital Status:</b> <?php echo $profile["marital_status"]; ?></li>
                                     <li><b>Have Children:</b> <?php echo $profile["have_children"]; ?></li>
                                     <li><b>Body Type:</b> <?php echo $profile["body_type"]; ?></li>

@@ -6,7 +6,18 @@ class User {
     public $id;
     public $username;
     public $email;
+    public $phone;
+    public $date_of_birth;
     public $password;
+    public $gender;
+    public $country;
+    public $state;
+    public $district;
+    public $user_exist;
+    
+    private $previous_id;
+    private $previous_login_id;
+    
     public $valid_extensions;
     public $maxsize;
     public $base_url;
@@ -78,25 +89,71 @@ class User {
 }
     
     
+    public function getLatest($email = ""){
+        
+        $where = "";
+        
+        if($email != ""){
+            $where = " WHERE email = '$email'";
+        }
+        
+        $query = "SELECT MAX(id) as 'id', login_id FROM " . $this->table_name . $where." LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->execute();
+        $num = $stmt->rowCount();
+        if($num > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->previous_id = $row['id'];
+            $this->previous_login_id = substr($row['login_id'],1);
+            $this->user_exist = true;
+        }
+        else{
+            $this->user_exist = false;
+        }
+    }
     
     
 
     public function register() {
-        $query = "INSERT INTO " . $this->table_name . " SET username=:username, email=:email, password=:password";
+        
+        $this->getLatest();
+        
+        $new_login_id = "K".($this->previous_login_id + 1);
+        
+        $query = "INSERT INTO " . $this->table_name . " (login_id,email,mobile,dob,gender,country,state,district,password) VALUES (:login_id,:email,:phone,:dob,:gender,:country,:state,:district,:password)";
         $stmt = $this->conn->prepare($query);
-
-        // Sanitize
-        $this->username=htmlspecialchars(strip_tags($this->username));
-        $this->email=htmlspecialchars(strip_tags($this->email));
-        $this->password=password_hash($this->password, PASSWORD_BCRYPT);
-
+    
+        
+        $this->password=md5($this->password);
+        //$stmt->bind_param("ssssssiis", $this->login_id, $this->email, $this->phone, $this->date_of_birth, $this->gender,$this->country,$this->state,$this->district,$this->password);
+        
+        echo $new_login_id;
+        
         // Bind values
-        $stmt->bindParam(":username", $this->username);
+        $stmt->bindParam(":login_id", $new_login_id);
         $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":phone", $this->phone);
+        $stmt->bindParam(":dob", $this->date_of_birth);
+        $stmt->bindParam(":gender", $this->gender);
+        $stmt->bindParam(":country", $this->country);
+        $stmt->bindParam(":state", $this->state);
+        $stmt->bindParam(":district", $this->district);
         $stmt->bindParam(":password", $this->password);
+        
 
         if($stmt->execute()) {
-            return true;
+            $this->getLatest();
+            $query = "INSERT INTO user_profiles (user_id) VALUES ($this->previous_id)";
+            $stmt = $this->conn->prepare($query);
+            if($stmt->execute()) {
+                $_SESSION["user_id"] = $this->id;
+                error_log("\n\nFrom Registration : ".$_SESSION["user_id"],3,"sessionss.txt");
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         return false;
     }
@@ -117,11 +174,17 @@ class User {
             $password2 = $row['password'];
 
             if($this->password === $password2) {
-                
+                $_SESSION["user_id"] = $this->id;
+                error_log("\n\nFrom Login : ".$_SESSION["user_id"],3,"sessionss.txt");
                 return true;
             }
+            else{
+                return false;
+            }
         }
-        return false;
+        else{
+            return false;
+        }
     }
 
     public function forgotPassword() {

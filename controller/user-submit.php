@@ -1,7 +1,16 @@
 <?php
 $root = getenv("DOCUMENT_ROOT");
-require_once $root."/kcfc/matrimony/lib/db-connections.php";
-require_once $root."/kcfc/matrimony/lib/User.php";
+require_once("../lib/variables.php");  
+require_once BASE_PATH."/lib/db-connections.php";
+require_once BASE_PATH."/lib/User.php";
+
+function validate($input){
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    
+    return $input;
+}
 
 // Get database connection
 $database = new Database();
@@ -12,25 +21,40 @@ $user = new User($db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'register') {
-        $user->username = $_POST['username'];
-        $user->email = $_POST['email'];
-        $user->password = $_POST['pswd'];
 
-        if ($user->register()) {
-            echo "Registration successful!";
-        } else {
-            echo "Registration failed.";
+        $user->email = $user->validateInput($_POST['email'], 'email', $errors, 'email');
+        $user->phone = $user->validateInput($_POST['phone'], 'string', $errors, 'phone');
+        $user->date_of_birth = validate($_POST['date_of_birth']);
+        $user->password = validate($_POST["password"]);
+        $user->gender = $user->validateInput($_POST['gender'], 'string', $errors, 'gender');
+        $user->country = $user->validateInput($_POST['country'], 'string', $errors, 'country');
+        $user->state = $user->validateInput($_POST['state'], 'int', $errors, 'state');
+        $user->district = $user->validateInput($_POST['district'], 'int', $errors, 'district');
+        
+        $user->getLatest($user->email);
+        if($user->user_exist == 1){
+            header("Location: ".$base_url."sign_up.php?e=user_already_exists");
         }
+        else{
+            if ($user->register()) {
+            header("Location: ".$base_url."account/all-profiles.php");
+        } else {
+            header("Location: ".$base_url."sign_up.php?e=error");
+        }
+        }
+        
+
+        
     }
 
     if (isset($_POST['action']) && $_POST['action'] === 'login') {
         $user->email = $_POST['email'];
-        $user->password = md5($_POST['pswd']);
+        $user->password = md5($_POST['password']);
         
         if ($user->login()) {
-            echo "Login successful!";
+            header("Location: ".$base_url."account/all-profiles.php");
         } else {
-            echo "<br>Login failed.";
+            header("Location: ".$base_url."login.php?e=error");
         }
     }
 
